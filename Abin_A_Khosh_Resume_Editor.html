@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <style>
+    :root {
+      --navy: #203a5b;
+      --ink: #26323f;
+      --muted: #5a6878;
+      --line: #d9e1ea;
+      --paper: #fff;
+      --canvas: #eef2f6;
+      --accent: #2f5f8f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: Aptos, Calibri, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.42;
+    }
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px 18px;
+      background: #172b43;
+      color: #fff;
+      box-shadow: 0 2px 8px #0002;
+    }
+    .toolbar button {
+      border: 0;
+      border-radius: 5px;
+      padding: 9px 14px;
+      background: #fff;
+      color: #172b43;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .toolbar button.primary { background: #b8d9f7; }
+    .toolbar .hint { font-size: 12px; opacity: .88; }
+    .resume {
+      width: min(850px, calc(100% - 28px));
+      margin: 26px auto;
+      padding: 48px 58px;
+      background: var(--paper);
+      box-shadow: 0 3px 20px #14283c1c;
+    }
+    .print-page { display: block; }
+    .name {
+      margin: 0;
+      color: var(--navy);
+      font-size: 30px;
+      line-height: 1.1;
+      letter-spacing: .4px;
+    }
+    .headline {
+      margin: 5px 0 4px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+    .contact {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11.5px;
+    }
+    section { margin-top: 18px; }
+    h2 {
+      margin: 0 0 7px;
+      color: var(--navy);
+      font-size: 13px;
+      line-height: 1.2;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+    }
+    p { margin: 0 0 6px; }
+    .summary { font-size: 12.4px; }
+    .skill-list { display: grid; gap: 3px; font-size: 11.4px; }
+    .skill-list strong { color: var(--navy); }
+    .company {
+      margin: 8px 0 3px;
+      font-size: 12.4px;
+      font-weight: 700;
+    }
+    .role { margin: 6px 0 2px; }
+    .role-title { color: var(--navy); font-size: 12px; font-weight: 700; }
+    .dates { color: var(--muted); font-size: 11.5px; }
+    ul {
+      margin: 3px 0 8px;
+      padding-left: 18px;
+      font-size: 11.7px;
+    }
+    li { margin: 0 0 3px; padding-left: 1px; }
+    .project { margin: 10px 0 11px; }
+    .project h3 { margin: 0 0 3px; color: var(--navy); font-size: 12px; }
+    .project h3 span { color: var(--muted); font-weight: 400; }
+    .project p { margin: 3px 0; font-size: 11.6px; }
+    .project ul { margin: 0 0 3px; padding-left: 15px; }
+    .project li { margin-bottom: 1px; }
+    .education-title { margin-bottom: 1px; font-weight: 700; color: var(--navy); }
+    .education-title + p { margin-top: 0; }
+    [contenteditable="true"] { outline: none; border-radius: 2px; }
+    [contenteditable="true"]:focus { box-shadow: 0 0 0 2px #78a8d055; background: #f7fbff; }
+    @media print {
+      @page { size: A4; margin: 0; }
+      html, body { margin: 0; padding: 0; background: #fff; font-size: 11pt; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .toolbar { display: none !important; }
+      .resume { width: auto; margin: 0; padding: 4mm 7mm; box-shadow: none; }
+      .print-page { width: auto; min-height: 0; margin: 0; padding: 0; break-after: auto; page-break-after: auto; }
+      .name { font-size: 21pt; }
+      .headline { font-size: 10pt; margin: 2pt 0; }
+      .contact { font-size: 10pt; }
+      section { margin-top: 5pt; }
+      h2 { font-size: 10pt; margin-bottom: 2pt; }
+      .summary { font-size: 10pt; line-height: 1.18; }
+      .skill-list { font-size: 10pt; line-height: 1.12; gap: 1pt; }
+      .company { font-size: 10pt; margin: 2.5pt 0 1pt; }
+      .role { margin: 1.5pt 0 0; }
+      .role-title { font-size: 10pt; }
+      .dates { font-size: 10pt; }
+      ul { font-size: 10pt; line-height: 1.16; margin: 0 0 2pt; padding-left: 12pt; }
+      li { margin-bottom: .7pt; }
+      .project { margin: 2.5pt 0; }
+      .project h3 { font-size: 10pt; margin-bottom: .5pt; }
+      .project p { font-size: 10pt; line-height: 1.14; margin: 0; }
+      .project ul { font-size: 10pt; line-height: 1.12; margin: 0 0 1pt; padding-left: 12pt; }
+      .project li { margin-bottom: .35pt; }
+      .education-title { margin-bottom: 0; }
+      .education-title + p { margin-top: 0; margin-bottom: 0; line-height: 1.08; }
+      [contenteditable="true"]:focus { box-shadow: none; background: transparent; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar" aria-label="Resume editor controls">
+    <span class="hint">Click text to edit. Changes autosave in this browser.</span>
+    <button class="primary" type="button" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+
+  <main class="resume">
+    <div class="print-page">
+    <header>
+      <h1 class="name" contenteditable="true" data-edit-key="name" spellcheck="false">Abin A Khosh</h1>
+      <p class="headline" contenteditable="true" data-edit-key="headline-v3">Senior Software Engineer | Frontend Developer | React | JavaScript | Angular</p>
+      <p class="contact" contenteditable="true" data-edit-key="contact-v4">Thiruvananthapuram, Kerala, India | abin.a.khosh@gmail.com | +91 9995011543 | <a href="https://www.linkedin.com/in/abin-a-khosh/">linkedin.com/in/abin-a-khosh</a> | <a href="https://abin-developer.github.io/Portfolio">abin-developer.github.io/Portfolio</a></p>
+    </header>
+
+    <section>
+      <h2>Summary</h2>
+      <div class="summary" contenteditable="true" data-edit-key="summary-v2" spellcheck="true">
+        Senior Frontend Software Engineer with 7+ years of software development experience building responsive web applications and cross-platform mobile experiences. Hands-on expertise in React.js, React Native, JavaScript, TypeScript, Angular 8, reusable component architecture, React Context API, role-based access control (RBAC), REST API integration, and real-time SignalR features. Experienced in Agile methodologies, unit testing, debugging, code reviews, sprint planning, estimation, mentoring, spec-driven software development, and generative AI-assisted engineering.
+      </div>
+    </section>
+
+    <section>
+      <h2>Technical Skills</h2>
+      <div class="skill-list" contenteditable="true" data-edit-key="skills-v5" spellcheck="true">
+        <div><strong>Frontend:</strong> React.js, TypeScript, JavaScript (ES6+), React Native, Angular 8, AngularJS, HTML5, CSS3, responsive design, single-page applications (SPA)</div>
+        <div><strong>UI and architecture:</strong> Reusable components, component-based architecture, React Context API, role-based access control (RBAC), Material UI, Angular Material, Bootstrap, Tailwind CSS</div>
+        <div><strong>APIs and data:</strong> REST APIs, Axios, SignalR, JSON, Swagger, Postman, MySQL, browser local storage, Auth0, AWS Amplify</div>
+        <div><strong>Testing and quality:</strong> Jest, React Testing Library, unit testing, debugging, defect resolution, SonarQube, code review</div>
+        <div><strong>Cloud & tools:</strong> Microsoft Azure, Azure DevOps, CI/CD, Git, GitHub, GitLab, Bitbucket, Jira, Figma</div>
+        <div><strong>Delivery & collaboration:</strong> Agile methodologies (Scrum), sprint planning, task estimation, mentoring, spec-driven software development</div>
+        <div><strong>AI:</strong> Claude, GitHub Copilot, OpenAI Codex, AI-assisted development</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Certifications</h2>
+      <ul class="certification-list" contenteditable="true" data-edit-key="certifications-v1" spellcheck="true">
+        <li>Become an AI Native Engineer with Spec-Kit, SDD, and Claude</li>
+        <li>The Complete AI Coding Course (2025) - Cursor, Claude Code</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Work Experience</h2>
+      <p class="company" contenteditable="true" data-edit-key="company-inapp-v2">InApp Information Technologies</p>
+      <div class="role">
+        <div><span class="role-title" contenteditable="true" data-edit-key="title-sse">Senior Software Engineer</span> <span class="dates" contenteditable="true" data-edit-key="dates-sse">| Dec 2022–Present</span></div>
+        <ul contenteditable="true" data-edit-key="bullets-sse-v2" spellcheck="true">
+          <li>Design, develop, and maintain responsive React.js web applications and frontend features using JavaScript, TypeScript, reusable components, React Context API, and REST APIs.</li>
+          <li>Mentor junior engineers and new hires; support Agile/Scrum delivery through task estimation, sprint planning, code reviews, and technical guidance.</li>
+          <li>Write unit tests, debug and resolve defects, coordinate requirements and API integration with client/backend teams, and present demos; use generative AI tools to support implementation and testing.</li>
+        </ul>
+      </div>
+
+      <div class="role">
+        <div><span class="role-title" contenteditable="true" data-edit-key="title-se">Software Engineer</span> <span class="dates" contenteditable="true" data-edit-key="dates-se">| Aug 2021–Nov 2022</span></div>
+        <ul contenteditable="true" data-edit-key="bullets-se-v2" spellcheck="true">
+          <li>Developed responsive React.js frontend features for web and mobile applications, using reusable UI components and React Context API for shared state.</li>
+          <li>Integrated REST APIs and real-time SignalR features; clarified requirements, collaborated with client/backend teams, presented demos, wrote unit tests, and debugged defects.</li>
+        </ul>
+      </div>
+
+      <p class="company" contenteditable="true" data-edit-key="company-xcubated">Xcubated Business Solutions</p>
+      <div class="role">
+        <div><span class="role-title" contenteditable="true" data-edit-key="title-associate">Software Associate</span> <span class="dates" contenteditable="true" data-edit-key="dates-associate">| Aug 2019–Jul 2021</span></div>
+        <ul contenteditable="true" data-edit-key="bullets-associate-v2" spellcheck="true">
+          <li>Developed Angular 8 frontend features for ATMA using HTML5 and CSS3; performed unit testing and debugging, resolved defects, and collaborated with Java/Spring and MongoDB backend developers.</li>
+        </ul>
+      </div>
+    </section>
+
+    </div>
+    <div class="print-page">
+    <section>
+      <h2>Projects</h2>
+      <div contenteditable="true" data-edit-key="projects-v6" spellcheck="true">
+        <article class="project">
+          <h3>ThriveWell | Miracle Foundation <span>- InApp</span></h3>
+          <p>Contributed frontend features for ThriveScale and FosterShare, products supporting child and family well-being in India and the US. ThriveScale helps case workers and prevention partners manage assessments, follow-ups, and progress reporting; FosterShare lets foster parents keep daily logs and track children's well-being.</p>
+          <ul>
+            <li>Created reusable table components and common field-array-driven form logic with validation support, so forms could be configured by specifying their fields.</li>
+            <li>Used React Context API to share state across features; built responsive workflows with Material UI, Formik, and Yup.</li>
+            <li>Integrated REST APIs, wrote unit tests, resolved defects, presented client demos, and coordinated with client and backend teams; mentored junior engineers into capable project resources.</li>
+            <li>Used generative AI tools such as Claude and GitHub Copilot for code exploration, implementation, debugging, and test drafting; applied spec-driven development to translate requirements into focused work.</li>
+          </ul>
+          <p><strong>Stack:</strong> React.js, JavaScript, React Context API, Material UI, Formik, Yup, REST APIs, i18next.<br><strong>AI tools and practices:</strong> GitHub Copilot, Claude Code, generative AI-assisted development, spec-driven software development.</p>
+        </article>
+        <article class="project">
+          <h3>ReadySkill <span>- InApp</span></h3>
+          <p>Developed frontend features for a workforce-learning platform with a learner mobile app and partner portal. The platform connects students with educational institutions and courses, employers, knowledge partners, and social-service providers; partner services include support such as childcare and food assistance.</p>
+          <ul>
+            <li>Implemented real-time chat with SignalR for conversations between users on the same platform and across platform types.</li>
+            <li>Used React Context API to share state across the learner app and partner portal, and integrated frontend features with backend services.</li>
+            <li>Supported client demos, unit testing, defect fixes, and coordination with client and backend teams.</li>
+          </ul>
+          <p><strong>Stack:</strong> React.js, React Context API, SignalR, Git, Azure DevOps, Jira, SonarQube.</p>
+        </article>
+        <article class="project">
+          <h3>NASSCOM SME Inspire Awards Portal <span>- InApp</span></h3>
+          <p>Contributed frontend features to an awards application platform for NASSCOM-member SMEs. Workflows included secure authentication, multi-step questionnaires, award-category selection by revenue band, and file uploads.</p>
+          <ul>
+            <li>Built React workflows for questionnaires, category selection, and file uploads, plus role-based admin and super-admin interfaces.</li>
+            <li>Supported awards-cycle configuration and exports; used React Context API to share state across screens.</li>
+            <li>Contributed to testing, defect resolution, and coordination with the wider team.</li>
+          </ul>
+          <p><strong>Stack:</strong> React.js, React Context API, Git, Azure DevOps, Jira, SonarQube.</p>
+        </article>
+        <article class="project">
+          <h3>InApp Asset Management Tool <span>- InApp</span></h3>
+          <p>Developed frontend features for organizational asset records, allocation and return workflows, and dashboards showing asset-related information. The tool was designed to integrate with the internal employee-management application or run as a standalone app.</p>
+          <ul>
+            <li>Built and maintained asset record, allocation/return, and dashboard UI workflows.</li>
+            <li>Used React Context API for shared state, resolved defects, and coordinated implementation updates.</li>
+            <li>Provided knowledge transfer on application workflows and frontend implementation.</li>
+          </ul>
+          <p><strong>Stack:</strong> React.js, JavaScript, React Context API, Git.</p>
+        </article>
+        <article class="project">
+          <h3>ATMA | Automatic Transition Management Application <span>- Xcubated</span></h3>
+          <p>Developed Angular 8 frontend features for an organizational transition-management application. Implemented features, wrote unit tests, fixed defects, and coordinated with backend developers. <br><strong>Stack:</strong> Angular 8, HTML, CSS, Java Spring, MongoDB, Bitbucket.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div contenteditable="true" data-edit-key="education-v2">
+        <p class="education-title">Government Engineering College, Barton Hill, Thiruvananthapuram, Kerala | Jul 2015–Jun 2019</p>
+        <p>B.Tech, Information Technology Engineering | Kerala Technological University</p>
+      </div>
+    </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const storagePrefix = "abin-resume-editor-v2:";
+      document.querySelectorAll("[data-edit-key]").forEach((element) => {
+        const key = storagePrefix + element.dataset.editKey;
+        try {
+          const saved = localStorage.getItem(key);
+          if (saved !== null) element.innerHTML = saved;
+          element.addEventListener("input", () => localStorage.setItem(key, element.innerHTML));
+        } catch (error) {
+          // Editing and printing remain available if local storage is disabled.
+        }
+      });
+      const contact = document.querySelector('[data-edit-key="contact-v4"]');
+      if (contact && !contact.querySelector("a")) {
+        contact.innerHTML = contact.innerHTML.replace(
+          "linkedin.com/in/abin-a-khosh",
+          '<a href="https://www.linkedin.com/in/abin-a-khosh/">linkedin.com/in/abin-a-khosh</a>'
+        );
+        try { localStorage.setItem(storagePrefix + "contact-v4", contact.innerHTML); } catch (error) {}
+      }
+    })();
+  </script>
+</body>
+</html>
+
+
+
